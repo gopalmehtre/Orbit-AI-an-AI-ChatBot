@@ -7,7 +7,7 @@ import express from 'express';
 import mongoose, { model } from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import OpenAI from "openai";
+// import OpenAI from "openai";
 
 
 const app = express();
