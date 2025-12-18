@@ -68,7 +68,7 @@ const deleteThread = async(req, res) => {
 const newThread = async(req, res) => {
     const {threadId, message} = req.body;
 
-    if(!threadId || message) {
+    if(!threadId || !message) {
         res.status(400).json({error : 'missing required fields'});
     }
 
