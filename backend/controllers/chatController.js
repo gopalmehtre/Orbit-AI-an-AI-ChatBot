@@ -70,10 +70,11 @@ const newThread = async(req, res) => {
 
     if(!threadId || !message) {
         res.status(400).json({error : 'missing required fields'});
+        return;
     }
 
     try {
-        const newChat = await Thread.findOne({threadId});
+        let newChat = await Thread.findOne({threadId});
 
         if(!newChat) {
             newChat = new Thread({

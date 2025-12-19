@@ -1,4 +1,5 @@
 import mongoose, {Schema} from "mongoose";
+import {MessageSchema} from "./messageModel.js";
 
 const ThreadSchema = new Schema({
     threadId : {

@@ -1,16 +1,15 @@
 import './App.css'
-import Chat from './components/Chat.jsx'
 import ChatWindow from './components/ChatWindow.jsx'
 import Sidebar from './components/Sidebar.jsx'
-
+import { ContextProvider } from './contexts/context.jsx' 
 function App() {
-  
-
   return (
-    <div className='App'>
-      <Sidebar/>
-      <ChatWindow/>
-    </div>
+    <ContextProvider>
+      <div className='App'>
+        <Sidebar/>
+        <ChatWindow/>
+      </div>
+    </ContextProvider>
   )
 }
 
