@@ -4,11 +4,18 @@ import Chat from './Chat.jsx';
 import {ScaleLoader} from 'react-spinners';
 import { Context } from '../contexts/context.jsx';
 import api from '../services/api.js';
+import { v1 as uuidv1 } from "uuid";
 
 export default function ChatWindow() {
-  const {prompt, setPrompt, reply, setReply, currThreadId, setPrevChats, setNewChat} = useContext(Context);
+  const {prompt, setPrompt, reply, setReply, currThreadId, setCurrThreadId, setPrevChats, setNewChat} = useContext(Context);
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if(!currThreadId) {
+      setCurrThreadId(uuidv1());
+    }
+  }, [currThreadId, setCurrThreadId]);
 
   const getReply = async () => {
     if (!prompt || !currThreadId) {
@@ -25,7 +32,7 @@ export default function ChatWindow() {
         message: prompt,
         threadId: currThreadId
       });
-      const res = response.data; // <-- Use response.data directly
+      const res = response.data;
       console.log(res);
       setReply(res.reply);
 
@@ -37,15 +44,15 @@ export default function ChatWindow() {
 
   useEffect(() => {
     if(prompt && reply) {
-      setPrevChats(prevChats => {
+      setPrevChats(prevChats => 
         [...prevChats, {
           role: 'user',
-          content: 'prompt',
+          content: prompt,
         }, {
           role: 'assistant',
           content: reply
         }]
-      });
+      );
     }
     setPrompt('');
   }, [reply]);
@@ -81,7 +88,9 @@ export default function ChatWindow() {
           <input placeholder='Ask anything' value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' ? getReply(): ''} />
-          <div id='submit'><i className="fa-solid fa-paper-plane"></i></div>
+          <button id='submit' onClick={getReply}>
+            <i className="fa-solid fa-paper-plane">
+          </i></button>
         </div>
         <p className='info'>
           AI can make mistakes. Use your Brain!

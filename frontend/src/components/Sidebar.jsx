@@ -12,7 +12,7 @@ export default function Sidebar() {
   const getAllThreads = async() => {
     try {
       const response = await api.get('/thread');
-      const res = await response.data;
+      const res = response.data;
       const filterData = res.map(thread => ({threadId : thread.threadId, title: thread.title}));
 
       setAllThreads(filterData);
@@ -38,7 +38,7 @@ export default function Sidebar() {
 
     try{
       const response = await api.get(`/thread/${newThreadId}`);
-      const res = await response.json();
+      const res = response.data ;
       console.log(res);
       setPrevChats(res);
       setNewChat(false);
@@ -53,7 +53,7 @@ export default function Sidebar() {
   const deleteThread = async (threadId) => {
         try {
             const response = await api.delete(`/thread/${threadId}`);
-            const res = await response.json();
+            const res = response.data;
             console.log(res);
 
             //updated threads re-render

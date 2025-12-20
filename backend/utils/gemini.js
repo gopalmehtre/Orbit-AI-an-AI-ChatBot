@@ -21,7 +21,10 @@ const getOpenAIAPIResponse = async(message) => {
         const data = await response.json();
         if (!response.ok) {
             throw new Error(data.error?.message || "API request failed");
+
         } 
+        const assistantReply = data.choices?.[0].message?.content || "";
+        return assistantReply;
     } catch(err) {
         console.error(err);
         throw err;

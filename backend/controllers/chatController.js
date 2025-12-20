@@ -1,5 +1,4 @@
 import Thread from '../models/threadModel.js';
-import Message from '../models/messageModel.js';
 import getOpenAIAPIResponse from '../utils/gemini.js';
 
 const testThread = async(req, res) => {
@@ -47,7 +46,7 @@ const getThread = async(req, res) => {
 
 const deleteThread = async(req, res) => {
 
-    const threadId = req.params;
+    const {threadId} = req.params;
 
     try {
         const deletedThread = await Thread.findOneAndDelete({threadId});
@@ -83,11 +82,14 @@ const newThread = async(req, res) => {
                 messages : [{role : 'user', content : message}]
             });
         } else {
-            newChat.messages.push({role: 'user', content: message});
+            newChat.message.push({role: 'user', content: message});
         }
 
         const assistantReply = await getOpenAIAPIResponse(message);
-        newChat.messages.push({role: 'assistant', content: assistantReply});
+        if(!assistantReply) {
+            throw new Error("assistant reply is empty")
+        }
+        newChat.message.push({role: 'assistant', content: assistantReply});
         newChat.updatedAt = new Date();
 
         await newChat.save();

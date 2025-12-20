@@ -33,7 +33,7 @@ export default function Chat() {
 
     return (
         <>
-            {newChat && <h1>Start a New Chat!</h1>}
+            {newChat && <h1>What's on your mind today ?</h1>}
             <div className="chats">
                 {
                     prevChats?.slice(0, -1).map((chat, idx) => 
@@ -48,7 +48,7 @@ export default function Chat() {
                 }
 
                 {
-                    prevChats.length > 0  && (
+                   Array.isArray(prevChats) && prevChats.length > 0  && (
                         <>
                             {
                                 latestReply === null ? (
